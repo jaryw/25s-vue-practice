@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <!-- <weather></weather>
+      <school></school>
+      <hort></hort> -->
+      <!-- 组件标签 -->
+      <!-- <student></student>
+      <jdg></jdg>
+      <school></school>
+      <br />
+      <student></student>
+      <Fruit></Fruit>
+      <app></app> -->
+      <h2>学生信息</h2>
+      <button @click="student.agg++">年龄+1</button> <br>
+      <button @click="addSex">添加性别属，默认男</button><br>
+      <button @click="student.sex = 未知性别">修改的属性是位置</button><br>
+      <button @click="addFruebd">在列表首位添加一个朋友</button><br>
+      <button @click="ypdateFirstFriendName">修改一个朋友的名字</button><br>
+      <button @click="addHobby">添加一个爱好</button><br>
+      <button @click="removeSmoke">过滤爱好中的抽烟</button>
+      <h3>姓名：{{student.name}}</h3>
+      <h3>年龄{{student.age}}</h3>
+      <!-- 添加一个判断条件，满足则显示默认属性 -->
+      <h3 v-if="student.sex">性别：{{student.sex}}</h3>
+      <h3>爱好：</h3>
+      <ul>
+        <li v-for="(h,index) in student.hobby" :key="index">
+          {{h}}
+        </li>
+      </ul>
+      <h3>朋友：</h3>
+      <ul>
+        <!-- 传参，f相当于形参指的就是friends -->
+        <li v-for="(f,index) in student.friends" :key="index">
+          {{f.name}}-{{f.age}}
+        </li>
+      </ul>
+    </div>
+    <!-- 演示全局注册组件 -->
+    <!-- <div id="root2">
+        <JDG></JDG>
+    </div> -->
+  </body>
+
+  <script>
+    // 定义weather组件
+    const weather = Vue.extend({
+      name: "weather",
+      // 结构：
+      template: `
+         <div>
+            <h2>今天的天气是{{rainy}}</h2>
+         </div>   
+        `,
+      data() {
+        return {
+          rainy: "下雨天",
+        };
+      },
+    });
+
+    // 定义
+    const hort = Vue.extend({
+      // 定义组件名
+      name: "hort",
+      // 先写结构：
+      template: `
+       <div>
+        姓： <input type='text'>{{firstName}}</input>
+        名：<input type='text'>{{lastName}}</input>
+       </div>      
+      `,
+      data:{
+        firstName:'张',
+        lastName:'强'
+      }
+    });
+    // 定义school组件
+    // const school = Vue.extend({
+    //     // 决定组件在开发者工具上得名字：配置项 name
+    //     name:'Hschool',
+    //   template: `
+    //      <div>
+    //         <h2>学校名称：{{schoolName}}</h2>
+    //         <h2>学校地址：{{address}}</h2>
+    //         <button @click='showName'>提示名称</button>
+    //      </div>
+    //     `,
+    //   data() {
+    //     return {
+    //       schoolName: "实验小学",
+    //       address: "四川",
+    //     };
+    //   },
+    //   methods: {
+    //     showName(){
+    //         alert(this.schoolName)
+    //     }
+    //   },
+    // });
+    // 组件嵌套练习
+
+    // 定义一个season组件
+    // const season = Vue.extend({
+    //   template: `
+    //      <div>
+    //         <h2>{{name}}在{{season}}都有</h2>
+    //      </div>
+    //     `,
+    //   data() {
+    //     return {
+    //       name: "葡萄",
+    //       season: "一年四季",
+    //     };
+    //   },
+    // });
+
+    // 定义一个fruit组件
+    // const fruit = Vue.extend({
+    //   // 这里是把season注册到了fruit里面， 当然写也在fruit里面写
+    //   template: `
+    //      <div>
+    //         <h2>你最喜欢吃的水果是{{name}}吗</h2>
+    //         <Season></Season>
+    //      </div>
+    //     `,
+    //   data() {
+    //     return {
+    //       name: "苹果",
+    //     };
+    //   },
+    //   // 注册一个season组件 把season嵌套进来
+    //   components: {
+    //     Season: season,
+    //   },
+    // });
+
+    // 定义一个app组件
+    // const app = Vue.extend({
+    //   template: `
+    //      <div>
+    //         <school></school>
+    //         <fruit></fruit>
+    //      </div>
+    //     `,
+    //   components: {
+    //     fruit,
+    //     // 因为season是在fruit里面的，一级管一级；不能再这里写season 组件
+    //     // season,
+    //   },
+    // });
+
+    // 创建student组件
+    // const student = Vue.extend({
+    //   template: `
+    //      <div>
+    //         <h2>学生信息：{{student}}</h2>
+    //         <h2>学生年龄：{{age}}</h2>
+    //      </div>
+    //     `,
+    //   data() {
+    //     return {
+    //       student: "张同学",
+    //       age: 18,
+    //     };
+    //   },
+    // });
+
+    // 创建JDG组件 用于全局变量
+    // const jdg = Vue.extend({
+    //     template:`
+    //      <div>
+    //         <h2>你好{{name}}</h2>
+    //      </div>
+    //     `,
+    //     data(){
+    //         return {
+    //             name:'jack'
+    //         }
+    //     }
+    // })
+    //  全局注册组件： 第一个参数是组件得名字； 第二个参数是组件变量名（位置）
+    // Vue.component('jdg',jdg)
+
+    // new Vue({
+    //   // template:`<app></app>`,
+    //   el: "#root",
+    //   // 注册组件，局部注册
+    //   components: {
+    //     weather,
+    //     // 组件名称写法
+    //     // 'my-schoot':school,
+    //     school,
+    //     hort,
+    //     // student,
+    //     // Fruit:fruit,
+    //   },
+    //   data: {
+    //     // msg: "早上好",
+    //     //   schoolName:'实验小学',
+    //     //   address:'四川',
+    //     //   student:'张同学',
+    //     //   age:18
+    //   },
+    // });
+
+    // // 注册JDG组件 全局
+    // // new Vue({
+    // //     el:'#root2',
+    // // })
+
+    // // Vue.prototype.x = 100
+    // // // 定义一个构造函数
+    // // function Demo(){
+    // //     this.a = 1
+    // //     this.b = 2
+    // // }
+    // // 创建一个Demo的实例对象
+    // // const d = new Demo()
+    // // // 显示原型属性
+    // // console.log(Demo.prototype)
+    // // // 显示隐性属性
+    // // console.log(d.__proto__)
+    // // console.log(Demo.prototype === d.__proto__)
+
+    // // // 通过显示原型属性操作原型对象，追加一个x属性，它的值为100
+    // // Demo.prototype.x = 100
+    // // console.log(d)
+
+    new Vue({
+      el:'#root',
+      data:{
+        student:{
+          name:'jack',
+          age:18,
+          // 这里要写数组形式
+          hobby:['抽烟','喝酒','看电视'],
+          friends:[
+            // 这里就不用写id属性了
+            {name:'tom',age:22},
+            {name:'jack',age:28},
+            {name:'som',age:33}
+          ]
+        }
+      },
+      // 配置方法 回调
+      methods: {
+        addSex(){
+          // 再巩固一下 vm.set传参的三个内容
+          // 1,配置项,2 需要增加的属性 3  增加的内容
+          this.$set(this.student,'sex' ,'男')
+        },
+        addFriend(){
+          this.student.friend.unshift({name:'sam', age:19})
+        },
+        // 对应再朋友首位加一个人
+        updateFirstFriendName(){
+          this.student.friends[0].name = '小胡'
+        },
+        // 加入一个爱好  push
+        addHobby(){
+          this.student.hobby.push('学习')
+        },
+        updateHobby(){
+          // 这里可以写Vue.set；  也可以写this.$set 前面我写的 后者，这里写前者
+          Vue.set(this.student.hobbt,0,'开车')
+        },
+        removeSmoke(){
+          // 这里一定要有返回值 return。 这里的return 是返回条件
+          this.student.hobby = this.student.hobby.filter((h)=>{
+            return h !== '抽烟'
+          })
+        }
+      },
+    })
+  </script>
+</html>
